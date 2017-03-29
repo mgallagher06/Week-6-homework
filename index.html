@@ -7,25 +7,32 @@
   <title>Disney Movies</title>
 </head>
 <body>
+<form id="nameform">
+  Search <input type="text" name="search"><br>
+</form>
+<button id="submitButton" type="submit" form="nameform" value="Submit">Submit</button>
   <div id="button">
-  <button data-movie="little mermaid">Little Mermaid</button>
-  <button data-movie="zootopia">Zootopia</button>
-  <button data-movie="tangled">Tangled</button>
-  <button data-movie="aladdin">Aladdin</button>
-  <button data-movie="mulan">Mulan</button>
-  <button data-movie="cinderella">Cinderella</button>
-  <button data-movie="moana">Moana</button>
-  <button data-movie="the black cauldron">The Black Cauldron</button>
-  <button data-movie="up">Up</button>
-  <button data-movie="sleeping beauty">Sleeping Beauty</button>
-  </div>
-<!-- <script type="text/javascript"></script> -->
+  <button class = "movie" data-movie="little mermaid">Little Mermaid</button>
+  <button class = "movie" data-movie="zootopia">Zootopia</button>
+  <button class = "movie" data-movie="tangled">Tangled</button>
+  <button class = "movie" data-movie="aladdin">Aladdin</button>
+  <button class = "movie" data-movie="mulan">Mulan</button>
+  <button class = "movie" data-movie="cinderella">Cinderella</button>
+  <button class = "movie" data-movie="moana">Moana</button>
+  <button class = "movie" data-movie="the black cauldron">The Black Cauldron</button>
+  <button class = "movie" data-movie="up">Up</button>
+  <button class = "movie" data-movie="sleeping beauty">Sleeping Beauty</button>
+  <div id="gifs-appear-here"></div>
+  
+
+
+<script type="text/javascript"></script>
 <script src="http://code.jquery.com/jquery-2.1.3.min.js"></script>
 <script>
-   $("button").on("click", function() {
+   $(".movie").on("click", function() {
       var movie = $(this).attr("data-movie");
       var queryURL = "http://api.giphy.com/v1/gifs/search?q=" +
-        movie + "&api_key=dc6zaTOxFJmzC&limit=10";
+        movie + "&api_key=dc6zaTOxFJmzC&limit=10" + "&rating=y";
 
       $.ajax({
           url: queryURL,
@@ -33,25 +40,32 @@
         })
         .done(function(response) {
           var results = response.data;
+          console.log("worked", results);
+
 
           for (var i = 0; i < results.length; i++) {
             var gifDiv = $("<div class='item'>");
 
             var rating = results[i].rating;
 
+
+
             var p = $("<p>").text("Rating:" + rating);
 
             var movieImage = $("<img>");
-            movieImage.attr("src", response.results[i].images.fixed_height.url);
+            movieImage.attr("src", results[i].images.fixed_height.url);
 
             gifDiv.prepend(p);
             gifDiv.prepend(movieImage);
 
-            $("#gifs-appear-here").append(p,gifDiv);
-        }
-      });
-      });
+            $("#gifs-appear-here").prepend(gifDiv);
+        }})
 
+      })
+            $("submitButton").on("click", function() {
+            
+
+            })
     </script>
     </body>
     </html>
